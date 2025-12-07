@@ -11,7 +11,7 @@ export const ControlPanel = () => {
     const [previewUrl, setPreviewUrl] = useState('');
 
     // API URL - use ngrok for remote access, localhost for local development
-    const API_URL = 'https://zoologically-postprostate-reggie.ngrok-free.app';
+    const API_URL = 'https://zoologically-postprostate-reggie.ngrok-free.dev';
     // const API_URL = 'http://localhost:5075'; // Uncomment for local development
 
     const handleUpdate = async () => {
