@@ -58,16 +58,33 @@ export const ControlPanel = () => {
         setLoading(false);
     };
 
-    const handleDownloadPdf = () => {
+    const handleDownloadPdf = async () => {
         if (pdfUrl) {
-            // Create a temporary link with ngrok header
-            const link = document.createElement('a');
-            link.href = pdfUrl + '&ngrok-skip-browser-warning=true';
-            link.download = 'Flap-Drawing.pdf';
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            try {
+                // Fetch the PDF with the ngrok header to bypass the warning
+                const response = await fetch(pdfUrl, {
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'Flap-Drawing.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    alert('Failed to download PDF. Please try again.');
+                }
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Failed to download PDF. Please try again.');
+            }
         }
     };
 
