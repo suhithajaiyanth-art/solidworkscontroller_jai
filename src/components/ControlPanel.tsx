@@ -8,7 +8,6 @@ export const ControlPanel = () => {
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
-    const [previewUrl, setPreviewUrl] = useState('');
     const [pdfReady, setPdfReady] = useState(false);
     const [pdfUrl, setPdfUrl] = useState('');
 
@@ -46,10 +45,6 @@ export const ControlPanel = () => {
             const data = await response.json();
             if (response.ok) {
                 setStatus('success:' + data.message);
-                // Update preview image if available
-                if (data.previewUrl) {
-                    setPreviewUrl(API_URL + data.previewUrl);
-                }
                 // Check if PDF is ready for download
                 if (data.pdfReady && data.pdfUrl) {
                     setPdfReady(true);
@@ -123,25 +118,25 @@ export const ControlPanel = () => {
                             Update flap dimensions directly from the web.
                         </p>
 
-                        {/* Flap Diagram / Live Preview */}
+                        {/* Flap Diagram - Static Image */}
                         <div className="bg-white rounded-xl p-3 shadow-lg">
-                            {previewUrl ? (
-                                <div>
-                                    <div className="text-xs text-gray-500 mb-2 text-center font-medium">LIVE PREVIEW</div>
-                                    <img 
-                                        src={previewUrl} 
-                                        alt="Updated Flap Preview" 
-                                        className="w-full h-auto"
-                                    />
-                                </div>
-                            ) : (
-                                <img 
-                                    src="/flap-diagram.png" 
-                                    alt="Flap Diagram" 
-                                    className="w-full h-auto"
-                                />
-                            )}
+                            <img 
+                                src="/flapimge.png" 
+                                alt="Flap Diagram" 
+                                className="w-full h-auto"
+                            />
                         </div>
+
+                        {/* Status Message Below Image */}
+                        {status && (
+                            <div className="mt-4 p-3 rounded-xl bg-gray-800/50 border border-gray-700">
+                                <div className={`text-xs font-medium ${
+                                    isSuccess ? 'text-emerald-400' : 'text-red-400'
+                                }`}>
+                                    {statusMessage}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Stats/Info */}
@@ -271,26 +266,6 @@ export const ControlPanel = () => {
                                     </>
                                 )}
                             </button>
-
-                            {/* Status Message */}
-                            {status && (
-                                <div className={`p-4 rounded-xl flex items-start gap-3 ${
-                                    isSuccess ? 'bg-emerald-500/10 border border-emerald-500/30' : 'bg-red-500/10 border border-red-500/30'
-                                }`}>
-                                    {isSuccess ? (
-                                        <svg className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    ) : (
-                                        <svg className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    )}
-                                    <span className={`text-sm ${isSuccess ? 'text-emerald-300' : 'text-red-300'}`}>
-                                        {statusMessage}
-                                    </span>
-                                </div>
-                            )}
 
                             {/* PDF Download Button */}
                             {pdfReady && (
