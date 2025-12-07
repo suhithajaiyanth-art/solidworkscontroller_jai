@@ -20,7 +20,10 @@ export const ControlPanel = () => {
         try {
             const response = await fetch(`${API_URL}/SolidWorks/update`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                },
                 body: JSON.stringify({
                     length: parseFloat(length),
                     drawnBy,
