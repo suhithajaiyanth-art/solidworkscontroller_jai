@@ -17,6 +17,13 @@ export const ControlPanel = () => {
     // const API_URL = 'http://localhost:5075'; // Uncomment for local development
 
     const handleUpdate = async () => {
+        // Validate length is between 15 and 40 inches
+        const lengthValue = parseFloat(length);
+        if (isNaN(lengthValue) || lengthValue < 15 || lengthValue > 40) {
+            setStatus('error:Length must be between 15 and 40 inches.');
+            return;
+        }
+
         setLoading(true);
         setStatus('');
         setPdfReady(false);
@@ -29,7 +36,7 @@ export const ControlPanel = () => {
                     'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
-                    length: parseFloat(length),
+                    length: lengthValue,
                     drawnBy,
                     checkedBy,
                     approved,
@@ -163,17 +170,20 @@ export const ControlPanel = () => {
                             {/* Length Input - Featured */}
                             <div className="relative">
                                 <label className="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">
-                                    Flap Length
+                                    Flap Length <span className="text-gray-500 font-normal">(15" - 40")</span>
                                 </label>
                                 <div className="relative">
                                     <input
                                         type="number"
                                         value={length}
                                         onChange={(e) => setLength(e.target.value)}
+                                        min={15}
+                                        max={40}
+                                        step={0.1}
                                         className="w-full px-5 py-4 bg-gray-900 border-2 border-gray-800 rounded-xl text-white text-lg font-medium placeholder-gray-600 focus:border-cyan-500 focus:ring-0 transition-colors outline-none"
-                                        placeholder="0.00"
+                                        placeholder="Enter 15-40"
                                     />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">mm</span>
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">inches</span>
                                 </div>
                             </div>
 
