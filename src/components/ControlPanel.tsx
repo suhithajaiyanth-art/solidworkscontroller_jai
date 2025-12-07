@@ -107,10 +107,10 @@ export const ControlPanel = () => {
                     
                     <div className="relative z-10">
                         {/* Title */}
-                        <h1 className="text-3xl lg:text-4xl font-black text-white mb-2 leading-tight">
-                            Flap
-                            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                                Controller
+                        <h1 className="text-3xl lg:text-4xl font-black mb-2 leading-tight">
+                            <span className="text-white">Flap </span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                                Automation
                             </span>
                         </h1>
                         
@@ -150,6 +150,9 @@ export const ControlPanel = () => {
                                 <div className="text-xl font-bold text-blue-400">v1.0</div>
                                 <div className="text-xs text-gray-500">Version</div>
                             </div>
+                        </div>
+                        <div className="mt-4 text-xs text-gray-500">
+                            A product of CDPL
                         </div>
                     </div>
                 </div>
