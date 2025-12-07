@@ -151,7 +151,7 @@ export const ControlPanel = () => {
                                 <div className="text-xs text-gray-500">Version</div>
                             </div>
                         </div>
-                        <div className="mt-4 text-xs text-gray-500 font-bold">
+                        <div className="mt-4 text-sm text-white font-bold">
                             A product of CDPL
                         </div>
                     </div>
