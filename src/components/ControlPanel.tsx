@@ -173,7 +173,7 @@ export const ControlPanel = () => {
                                         className="w-full px-5 py-4 bg-gray-900 border-2 border-gray-800 rounded-xl text-white text-lg font-medium placeholder-gray-600 focus:border-cyan-500 focus:ring-0 transition-colors outline-none"
                                         placeholder="0.00"
                                     />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">inches</span>
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">mm</span>
                                 </div>
                             </div>
 
