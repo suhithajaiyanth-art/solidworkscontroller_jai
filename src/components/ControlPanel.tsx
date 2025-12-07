@@ -47,7 +47,6 @@ export const ControlPanel = () => {
     };
 
     const isSuccess = status.startsWith('success:');
-    const isError = status.startsWith('error:');
     const statusMessage = status.replace(/^(success:|error:)/, '');
 
     return (
