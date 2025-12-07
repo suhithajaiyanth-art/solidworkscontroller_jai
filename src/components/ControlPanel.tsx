@@ -9,6 +9,8 @@ export const ControlPanel = () => {
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
     const [previewUrl, setPreviewUrl] = useState('');
+    const [pdfReady, setPdfReady] = useState(false);
+    const [pdfUrl, setPdfUrl] = useState('');
 
     // API URL - use ngrok for remote access, localhost for local development
     const API_URL = 'https://zoologically-postprostate-reggie.ngrok-free.dev';
@@ -17,6 +19,8 @@ export const ControlPanel = () => {
     const handleUpdate = async () => {
         setLoading(true);
         setStatus('');
+        setPdfReady(false);
+        setPdfUrl('');
         try {
             const response = await fetch(`${API_URL}/SolidWorks/update`, {
                 method: 'POST',
@@ -39,6 +43,11 @@ export const ControlPanel = () => {
                 if (data.previewUrl) {
                     setPreviewUrl(API_URL + data.previewUrl);
                 }
+                // Check if PDF is ready for download
+                if (data.pdfReady && data.pdfUrl) {
+                    setPdfReady(true);
+                    setPdfUrl(API_URL + data.pdfUrl);
+                }
             } else {
                 setStatus('error:' + data.message);
             }
@@ -47,6 +56,19 @@ export const ControlPanel = () => {
             console.error(error);
         }
         setLoading(false);
+    };
+
+    const handleDownloadPdf = () => {
+        if (pdfUrl) {
+            // Create a temporary link with ngrok header
+            const link = document.createElement('a');
+            link.href = pdfUrl + '&ngrok-skip-browser-warning=true';
+            link.download = 'Flap-Drawing.pdf';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     };
 
     const isSuccess = status.startsWith('success:');
@@ -241,6 +263,19 @@ export const ControlPanel = () => {
                                         {statusMessage}
                                     </span>
                                 </div>
+                            )}
+
+                            {/* PDF Download Button */}
+                            {pdfReady && (
+                                <button
+                                    onClick={handleDownloadPdf}
+                                    className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white hover:shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.02] active:scale-[0.98]"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Download Drawing PDF
+                                </button>
                             )}
                         </div>
                     </div>
