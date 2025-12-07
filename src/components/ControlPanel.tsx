@@ -152,7 +152,7 @@ export const ControlPanel = () => {
                             </div>
                         </div>
                         <div className="mt-4 text-sm text-white font-bold">
-                            A product of CDPL
+                            A Product of CDPL
                         </div>
                     </div>
                 </div>
